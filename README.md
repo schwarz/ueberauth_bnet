@@ -11,7 +11,7 @@
 
     ```elixir
     def deps do
-      [{:ueberauth_bnet, "~> 0.1"}]
+      [{:ueberauth_bnet, "~> 0.2"}]
     end
     ```
 
