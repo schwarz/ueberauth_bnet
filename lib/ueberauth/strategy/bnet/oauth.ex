@@ -1,8 +1,8 @@
 defmodule Ueberauth.Strategy.Bnet.OAuth do
   use OAuth2.Strategy
-  
+
   # Public API
-  
+
   def client(opts \\ []) do
     config = Application.get_env(:ueberauth, Ueberauth.Strategy.Bnet.OAuth)
 
@@ -32,7 +32,7 @@ defmodule Ueberauth.Strategy.Bnet.OAuth do
   end
 
   # Strategy Callbacks
-  
+
   def authorize_url(client, params) do
     OAuth2.Strategy.AuthCode.authorize_url(client, params)
   end
@@ -45,13 +45,14 @@ defmodule Ueberauth.Strategy.Bnet.OAuth do
   end
 
   defp get_host("cn"), do: "www.battlenet.com.cn"
+
   defp get_host(region) when region in ["us", "eu", "kr", "tw"] do
     "#{region}.battle.net"
   end
 
   defp get_mashery_host("cn"), do: "api.battlenet.com.cn"
+
   defp get_mashery_host(region) when region in ["us", "eu", "kr", "tw"] do
     "#{region}.api.battle.net"
   end
-
 end

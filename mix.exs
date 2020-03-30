@@ -1,20 +1,21 @@
 defmodule UeberauthBnet.Mixfile do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.2.0"
 
   def project() do
-    [app: :ueberauth_bnet,
-     version: @version,
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     description: "Ueberauth strategy for Battle.net authentication.",
-     package: package(),
-     deps: deps(),
-     name: "Ueberauth Battle.net",
-     source_url: "https://github.com/schwarz/ueberauth_bnet"
-   ]
+    [
+      app: :ueberauth_bnet,
+      version: @version,
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      description: "Ueberauth strategy for Battle.net authentication.",
+      package: package(),
+      deps: deps(),
+      name: "Ueberauth Battle.net",
+      source_url: "https://github.com/schwarz/ueberauth_bnet"
+    ]
   end
 
   # Configuration for the OTP application
@@ -36,9 +37,9 @@ defmodule UeberauthBnet.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps() do
     [
-      {:ex_doc, "~> 0.14", only: :dev, runtime: false},
-      {:oauth2, "~> 0.9"},
-      {:ueberauth, "~> 0.4"}
+      {:ex_doc, ">= 0.0.0", only: [:dev], runtime: false},
+      {:oauth2, "~> 1.0 or ~> 2.0"},
+      {:ueberauth, "~> 0.6.3"}
     ]
   end
 
@@ -51,5 +52,4 @@ defmodule UeberauthBnet.Mixfile do
       links: %{"GitHub" => "https://github.com/schwarz/ueberauth_bnet"}
     ]
   end
-
 end
