@@ -80,7 +80,7 @@ Or with options:
 
     /auth/bnet?scope=wow.profile%20sc2.profile
 
-By default the requested scope is empty and the region is US. Scope can be configured either explicitly as a `scope` query value on the request path or in your configuration:
+By default the requested scope is `openid` and the region is US. Scope can be configured either explicitly as a `scope` query value on the request path or in your configuration:
 
 ```elixir
 config :ueberauth, Ueberauth,
@@ -89,7 +89,7 @@ config :ueberauth, Ueberauth,
   ]
 ```
 
-Available scopes are: `wow.profile` and `sc2.profile`.
+Available scopes are: `openid`, `d3.profile`, `wow.profile` and `sc2.profile`.
 
 ## License
 

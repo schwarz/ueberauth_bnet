@@ -16,11 +16,14 @@ defmodule Ueberauth.Strategy.Bnet.OAuth do
 
     opts =
       opts
-      |> Keyword.put(:site, "https://#{get_mashery_host(region)}/")
+      |> Keyword.put(:site, "https://#{get_host(region)}/")
       |> Keyword.put(:authorize_url, "https://#{get_host(region)}/oauth/authorize")
       |> Keyword.put(:token_url, "https://#{get_host(region)}/oauth/token")
 
+    json_library = Ueberauth.json_library()
+
     OAuth2.Client.new(opts)
+    |> OAuth2.Client.put_serializer("application/json", json_library)
   end
 
   def authorize_url!(params \\ []) do
@@ -46,13 +49,8 @@ defmodule Ueberauth.Strategy.Bnet.OAuth do
 
   defp get_host("cn"), do: "www.battlenet.com.cn"
 
-  defp get_host(region) when region in ["us", "eu", "kr", "tw"] do
+  defp get_host(region) when region in ["us", "eu", "apac"] do
     "#{region}.battle.net"
   end
 
-  defp get_mashery_host("cn"), do: "api.battlenet.com.cn"
-
-  defp get_mashery_host(region) when region in ["us", "eu", "kr", "tw"] do
-    "#{region}.api.battle.net"
-  end
 end
