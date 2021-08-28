@@ -14,6 +14,13 @@ defmodule Ueberauth.Strategy.Bnet do
         opts
       end
 
+    opts =
+      if conn.params["region"] do
+        Keyword.put(opts, :region, conn.params["region"])
+      else
+        opts
+      end
+
     opts = Keyword.put(opts, :redirect_uri, callback_url(conn))
     redirect!(conn, Ueberauth.Strategy.Bnet.OAuth.authorize_url!(opts))
   end
@@ -21,8 +28,14 @@ defmodule Ueberauth.Strategy.Bnet do
   @doc false
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     # opts = [redirect_uri: callback_url(conn)]
+    region = get_region(code)
+
     client =
-      Ueberauth.Strategy.Bnet.OAuth.get_token!(code: code, redirect_uri: callback_url(conn))
+      Ueberauth.Strategy.Bnet.OAuth.get_token!(
+        [code: code, redirect_uri: callback_url(conn)],
+        [],
+        region: region
+      )
 
     if client.token.access_token == nil do
       err = client.token.other_params["error"]
@@ -117,4 +130,8 @@ defmodule Ueberauth.Strategy.Bnet do
       }
     }
   end
+
+  defp get_region("EU" <> _code), do: "eu"
+  defp get_region("KR" <> _code), do: "apac"
+  defp get_region(_code), do: "us"
 end
