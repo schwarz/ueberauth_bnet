@@ -132,7 +132,6 @@ defmodule Ueberauth.Strategy.Bnet do
   end
 
   defp get_region("EU" <> _code), do: "eu"
-  defp get_region("KR" <> _code), do: "kr"
-  defp get_region("TW" <> _code), do: "tw"
+  defp get_region("KR" <> _code), do: "apac"
   defp get_region(_code), do: "us"
 end
