@@ -8,21 +8,19 @@ defmodule Ueberauth.Strategy.Bnet do
     opts = [scope: scopes]
 
     opts =
-      if conn.params["state"] do
-        Keyword.put(opts, :state, conn.params["state"])
-      else
-        opts
-      end
-
-    opts =
       if conn.params["region"] do
         Keyword.put(opts, :region, conn.params["region"])
       else
         opts
       end
 
-    opts = Keyword.put(opts, :redirect_uri, callback_url(conn))
-    redirect!(conn, Ueberauth.Strategy.Bnet.OAuth.authorize_url!(opts))
+    url =
+      opts
+      |> Keyword.put(:redirect_uri, callback_url(conn))
+      |> with_state_param(conn)
+      |> Ueberauth.Strategy.Bnet.OAuth.authorize_url!()
+
+    redirect!(conn, url)
   end
 
   @doc false
