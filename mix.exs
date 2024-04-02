@@ -39,7 +39,7 @@ defmodule UeberauthBnet.Mixfile do
     [
       {:ex_doc, ">= 0.0.0", only: [:dev], runtime: false},
       {:oauth2, "~> 1.0 or ~> 2.0"},
-      {:ueberauth, "~> 0.6.3"}
+      {:ueberauth, "~> 0.7.0"}
     ]
   end
 
