@@ -14,11 +14,12 @@ defmodule Ueberauth.Strategy.Bnet.OAuth do
     # US is the fallback region
     region = Keyword.get(opts, :region, "us")
 
+    site = "https://#{get_host(region)}"
     opts =
       opts
-      |> Keyword.put(:site, "https://#{get_host(region)}/")
-      |> Keyword.put(:authorize_url, "https://#{get_host(region)}/oauth/authorize")
-      |> Keyword.put(:token_url, "https://#{get_host(region)}/oauth/token")
+      |> Keyword.put(:site, site)
+      |> Keyword.put(:authorize_url, "#{site}/authorize")
+      |> Keyword.put(:token_url, "#{site}/token")
 
     json_library = Ueberauth.json_library()
 
@@ -47,10 +48,10 @@ defmodule Ueberauth.Strategy.Bnet.OAuth do
     |> OAuth2.Strategy.AuthCode.get_token(params, headers)
   end
 
-  defp get_host("cn"), do: "www.battlenet.com.cn"
+  defp get_host("cn"), do: "oauth.battlenet.com.cn"
 
   defp get_host(region) when region in ["us", "eu", "apac"] do
-    "#{region}.battle.net"
+    "oauth.battle.net"
   end
 
 end
