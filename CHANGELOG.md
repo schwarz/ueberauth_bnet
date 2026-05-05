@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.2
+
+* Actually read scope and region from config (#5)
+
 ## v0.3.1
 
 * Update Battle.net OAuth endpoints

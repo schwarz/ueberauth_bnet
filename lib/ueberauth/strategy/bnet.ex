@@ -1,22 +1,14 @@
 defmodule Ueberauth.Strategy.Bnet do
-  use Ueberauth.Strategy, scope: "openid"
+  use Ueberauth.Strategy, scope: "openid", region: "us"
 
   # Callbacks
   @doc false
   def handle_request!(conn) do
-    scopes = conn.params["scope"] || Keyword.get(default_options(), :scope)
-    opts = [scope: scopes]
-
-    opts =
-      if conn.params["region"] do
-        Keyword.put(opts, :region, conn.params["region"])
-      else
-        opts
-      end
-
     url =
-      opts
+      []
       |> Keyword.put(:redirect_uri, callback_url(conn))
+      |> with_region(conn)
+      |> with_scopes(conn)
       |> with_state_param(conn)
       |> Ueberauth.Strategy.Bnet.OAuth.authorize_url!()
 
@@ -132,4 +124,18 @@ defmodule Ueberauth.Strategy.Bnet do
   defp get_region("EU" <> _code), do: "eu"
   defp get_region("KR" <> _code), do: "apac"
   defp get_region(_code), do: "us"
+
+  defp option(conn, key) do
+    Keyword.get(options(conn), key, Keyword.get(default_options(), key))
+  end
+
+  defp with_region(opts, conn) do
+    region = conn.params["region"] || option(conn, :region)
+    opts |> Keyword.put(:region, region)
+  end
+
+  defp with_scopes(opts, conn) do
+    scopes = conn.params["scope"] || option(conn, :scope)
+    opts |> Keyword.put(:scope, scopes)
+  end
 end
