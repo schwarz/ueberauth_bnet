@@ -5,21 +5,13 @@
 
 ## Installation
 
-1. Setup your application on the [Battle.net Developer Portal](https://dev.battle.net).
+1. Setup your application on the [Battle.net Developer Portal](https://community.developer.battle.net).
 
 1. Add `:ueberauth_bnet` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:ueberauth_bnet, "~> 0.3.1"}]
-    end
-    ```
-
-1. Add the strategy to your applications:
-
-    ```elixir
-    def application do
-      [applications: [:ueberauth_bnet]]
+      [{:ueberauth_bnet, "~> 0.3.2"}]
     end
     ```
 
@@ -85,11 +77,13 @@ By default the requested scope is `openid` and the region is US. Scope can be co
 ```elixir
 config :ueberauth, Ueberauth,
   providers: [
-    bnet: {Ueberauth.Strategy.Bnet, [scope: "wow.profile sc2.profiles"]}
+    bnet: {Ueberauth.Strategy.Bnet, [scope: "wow.profile sc2.profiles", region: "eu"]}
   ]
 ```
 
 Available scopes are: `openid`, `d3.profile`, `wow.profile` and `sc2.profile`.
+
+Available regions are: `us`, `eu`, `apac` and `cn`.
 
 ## License
 
